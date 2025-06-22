@@ -1,3 +1,5 @@
+**/launchpad
+
 # Firebase-related files (in any project folder)
 **/firebase_options.dart
 **/google-services.json
