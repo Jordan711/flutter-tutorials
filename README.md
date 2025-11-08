@@ -16,6 +16,7 @@ Basic Flutter apps from various tutorials
 ## Credits
 - [Academind - Maximilian Schwarzmüller](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/?srsltid=AfmBOoq65Pd0ID6jiLOaKIMCWYdNi0e2uiy5UMs7r62Uk9QJMz0cK4GU&couponCode=JUNECP90625)
 - [Paulina Knop, Sagnik Bhattacharya](https://www.udemy.com/course/flutter-the-guide-to-build-android-ios-and-web-apps/?couponCode=JUNECP90625#instructor-2)
+- [Tiberiu Potec](https://www.udemy.com/course/bloc-from-zero-to-hero)
 
 ## Disclaimer
 These files are primarily for personal learning purposes. I do not claim ownership.
