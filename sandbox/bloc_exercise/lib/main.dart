@@ -43,6 +43,32 @@ import 'package:bloc_exercise/cubit/counter_cubit.dart';
  * BlocConsumer combines both bloc listener and builder into a widget
  * 
  * A repository is a class which has the main functions for communicating with the outer data layer
+ * 
+ * 
+ * Architecture: Presentation Layer - Business Logic - Data Layer
+ * 
+ * Data Layer
+ * -Retrieving and manipulating data from one or more sources
+ * - network requests, databases etc
+ * 
+ * Repositories
+ * - Model class is instantiated as objects here
+ * - A wrapper around one or more data providers
+ * 
+ * Data Providers
+ * - Provide raw data to Repository layer 
+ * - Is an API for the application
+ * - Direct communication way with the data sources (network requests)
+ * 
+ * 
+ * Models
+ * - A blueprint to the data your application will work with
+ * - E.g. create the weather model class with all its attributes
+ * - Attributes will be a bit linked to the responses from API
+ *  - Meaning the models should be generic and universal to multiple data sources (If possibly using other APIs in the future)
+ * 
+ * Business Logic Layer
+ * - Most of the Blocs and Cubits will be created here
  */
 
 import 'package:flutter/material.dart';
