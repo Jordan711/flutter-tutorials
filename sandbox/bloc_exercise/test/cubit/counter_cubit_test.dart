@@ -18,6 +18,9 @@ void main() {
     });
 
     test("The intitial state for the CounterCubit is CounterState(counterValue:0)", () {
+      // Two instances are each stored in different memory addresses
+      // Dart compares their location in memory so need to use Equatable
+      // It compares instances by value rather than their memory locations
       expect(counterCubit.state, CounterState(counterValue: 0));
     });
   });
