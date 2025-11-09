@@ -69,6 +69,12 @@ import 'package:bloc_exercise/cubit/counter_cubit.dart';
  * 
  * Business Logic Layer
  * - Most of the Blocs and Cubits will be created here
+ * - Main responsibility is to respond to the user input from the presentation layer with new emitted states
+ * 
+ * Blocs can communicate with one another
+ * 
+ * Presentation Layer
+ * - User Interface
  */
 
 import 'package:flutter/material.dart';
