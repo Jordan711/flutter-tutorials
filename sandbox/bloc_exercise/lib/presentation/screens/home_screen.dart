@@ -77,16 +77,17 @@ class _MyHomePageState extends State<MyHomePage> {
             MaterialButton(
               color: widget.color,
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        BlocProvider.value(
-                          value: BlocProvider.of<CounterCubit>(context), // So second screen can continue off of first screen's count
-                          child: SecondScreen(title: 'Second Screen', color: Colors.redAccent)),
-                  ),
-                );
+                Navigator.of(context).pushNamed('/second');
               },
               child: Text("Go to second screen"),
+            ),
+
+            MaterialButton(
+              color: widget.color,
+              onPressed: () {
+                Navigator.of(context).pushNamed('/third');
+              },
+              child: Text("Go to third screen"),
             ),
           ],
         ),

@@ -2,6 +2,8 @@ library;
 
 import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
 import 'package:bloc_exercise/presentation/screens/home_screen.dart';
+import 'package:bloc_exercise/presentation/screens/second_screen.dart';
+import 'package:bloc_exercise/presentation/screens/third_screen.dart';
 /** 
  * Stream is the foundation of BLOC
  * - It's like a river that transports data from the sender to the receiver
@@ -103,27 +105,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final CounterCubit _counterCubit = CounterCubit();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterCubit>(
-      create: (context) => CounterCubit(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
-        home: BlocProvider<CounterCubit>(
-          create: (context) => CounterCubit(),
-          child: const MyHomePage(title: 'Flutter Demo Home Page', color: Colors.blueAccent)),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      routes: {
+        '/': (context) => BlocProvider.value(
+          value: _counterCubit,
+          child: MyHomePage(
+            title: 'Flutter Demo Home Page',
+            color: Colors.blueAccent,
+          ),
+        ),
+        '/second': (context) => BlocProvider.value(
+          value: _counterCubit,
+          child: SecondScreen(
+            title: 'Second Screen',
+            color: Colors.redAccent,
+          ),
+        ),
+        '/third': (context) => BlocProvider.value(
+          value: _counterCubit,
+          child: ThirdScreen(
+            title: 'Third Screen',
+            color: Colors.greenAccent,
+          ),
+        ),
+      },
     );
   }
-}
 
+  @override
+  void dispose() {
+    _counterCubit.close();
+    super.dispose();
+  }
+}
