@@ -1,9 +1,7 @@
 library;
 
 import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
-import 'package:bloc_exercise/presentation/screens/home_screen.dart';
-import 'package:bloc_exercise/presentation/screens/second_screen.dart';
-import 'package:bloc_exercise/presentation/screens/third_screen.dart';
+import 'package:bloc_exercise/presentation/router/app_router.dart';
 /** 
  * Stream is the foundation of BLOC
  * - It's like a river that transports data from the sender to the receiver
@@ -108,53 +106,32 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
+  final AppRouter _appRouter = AppRouter();
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final CounterCubit _counterCubit = CounterCubit();
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      routes: {
-        '/': (context) => BlocProvider.value(
-          value: _counterCubit,
-          child: MyHomePage(
-            title: 'Flutter Demo Home Page',
-            color: Colors.blueAccent,
-          ),
-        ),
-        '/second': (context) => BlocProvider.value(
-          value: _counterCubit,
-          child: SecondScreen(
-            title: 'Second Screen',
-            color: Colors.redAccent,
-          ),
-        ),
-        '/third': (context) => BlocProvider.value(
-          value: _counterCubit,
-          child: ThirdScreen(
-            title: 'Third Screen',
-            color: Colors.greenAccent,
-          ),
-        ),
-      },
-    );
-  }
+    // The key is to provide a unique instance of a bloc/cubit
+    // Shouldn't create multiple instances of the same cubit/bloc, potential for state bugs
 
-  @override
-  void dispose() {
-    _counterCubit.close();
-    super.dispose();
+    // BlocProvider creates and provides a new instance of a bloc/cubit
+    // BlocProvider.value takes an already created instance and then provides it further
+
+    // Instances can be provided locally, specifically, or globally
+
+    // Wrapping the material app inside the bloc provider
+    // Create the only instance of the counter cubit to be provided 
+    // globally to all of our screens
+    return BlocProvider<CounterCubit>(
+      create: (context) => CounterCubit(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        onGenerateRoute: _appRouter.onGenerateRoute,
+      ),
+    );
   }
 }
