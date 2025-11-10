@@ -1,6 +1,7 @@
 library;
 
-import 'package:bloc_exercise/cubit/counter_cubit.dart';
+import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
+import 'package:bloc_exercise/presentation/screens/home_screen.dart';
 /** 
  * Stream is the foundation of BLOC
  * - It's like a river that transports data from the sender to the receiver
@@ -77,6 +78,27 @@ import 'package:bloc_exercise/cubit/counter_cubit.dart';
  * - User Interface
  */
 
+/**
+ * When pushing a new screen to the home screen, the build context doesn't know where to provide
+ * the unique instance of the bloc/cubit, so it won't be available in the pushed screen
+ * 
+ * Local Access - providing an instance of a bloc/cubit to a single screen (to its entire widget tree)
+ * Route Access - PRoviding an instance of a bloc/cubit to multiple screens
+ * 
+ * Flutter Routing Options
+ * - Anonymous Routing
+ *  - Routing without a route name (MaterialPageRoute, and setting child, home etc)
+ * - Named Routing
+ *  - Routing with route names
+ *  - Route names and their associated screens are set up inside route parameter of MaterialApp widget
+ * - Generated Routing
+ *  - Route names and their associated screens are set up inside a separate onGenerateRoute function
+ * 
+ * Passing Cubit to second screen
+ * - Anonymous Routing
+ *  - BlocProvider.value(value: existingBloc, )
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -97,81 +119,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: BlocProvider<CounterCubit>(
+          create: (context) => CounterCubit(),
+          child: const MyHomePage(title: 'Flutter Demo Home Page', color: Colors.blueAccent)),
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            BlocConsumer<CounterCubit, CounterState>(
-              listener: (context, state) {
-                if (state.wasIncremented == true) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Incremented'),
-                      duration: Duration(milliseconds: 300),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Decremented'),
-                      duration: Duration(milliseconds: 300),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                return Text(
-                  state.counterValue.toString(),
-                  style: Theme.of(context).textTheme.headlineMedium,
-                );
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).increment();
-                  },
-                  tooltip: "Increment",
-                  child: Icon(Icons.add),
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
-                  },
-                  tooltip: "Decrement",
-                  child: Icon(Icons.remove),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

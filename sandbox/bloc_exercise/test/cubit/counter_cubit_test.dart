@@ -1,6 +1,6 @@
 // Run tests by `pub run test`
 
-import 'package:bloc_exercise/cubit/counter_cubit.dart';
+import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
