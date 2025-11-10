@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
+                  heroTag: "increment",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
@@ -63,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Icon(Icons.add),
                 ),
                 FloatingActionButton(
+                  heroTag: "decrement",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrement();
                   },
