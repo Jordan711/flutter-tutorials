@@ -1,7 +1,9 @@
 library;
 
 import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
+import 'package:bloc_exercise/logic/cubit/internet_cubit.dart';
 import 'package:bloc_exercise/presentation/router/app_router.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 /** 
  * Stream is the foundation of BLOC
  * - It's like a river that transports data from the sender to the receiver
@@ -97,18 +99,23 @@ import 'package:bloc_exercise/presentation/router/app_router.dart';
  * Passing Cubit to second screen
  * - Anonymous Routing
  *  - BlocProvider.value(value: existingBloc, )
+ * 
+ * Blocs/Cubits can listen to another one via
+ * - Stream Subscription
+ * - Bloc Listener
  */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyApp(appRouter: AppRouter(), connectivity: Connectivity(),));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  final AppRouter _appRouter = AppRouter();
+  MyApp({super.key, required this.connectivity, required this.appRouter});
+  final AppRouter appRouter;
+  final Connectivity connectivity;
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +130,17 @@ class MyApp extends StatelessWidget {
     // Wrapping the material app inside the bloc provider
     // Create the only instance of the counter cubit to be provided 
     // globally to all of our screens
-    return BlocProvider<CounterCubit>(
-      create: (context) => CounterCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<InternetCubit>(create: (context) => InternetCubit(connectivity: connectivity)),
+        BlocProvider<CounterCubit>(create: (context) => CounterCubit(internetCubit: context.read<InternetCubit>())),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        onGenerateRoute: _appRouter.onGenerateRoute,
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }
