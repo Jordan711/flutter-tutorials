@@ -16,9 +16,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext homeScreenContext) {
     return BlocListener<InternetCubit, InternetState>(
-      listener: (context, state) {
+      listener: (internetCubitListenerContext, state) {
         if (state is InternetConnected &&
             state.connectionType == ConnectionType.wifi) {
           context.read<CounterCubit>().increment();

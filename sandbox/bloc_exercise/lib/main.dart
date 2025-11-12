@@ -103,6 +103,17 @@ import 'package:connectivity_plus/connectivity_plus.dart';
  * Blocs/Cubits can listen to another one via
  * - Stream Subscription
  * - Bloc Listener
+ * 
+ * Common error:
+ * BlocProvider.of() fails to find a context containing a specific bloc/cubit
+ * 
+ * The build context is a tool which helps handle the location of a widget inside the widget
+ * Every widget is built within a build context
+ * Inside the build function, the buildcontext instance passed, helps flutter know ehere the widget will sit inside the widget tree
+ * Widgets can have anonymous build context
+ * The buildcontext of a wigdet only keeps track of its direct parent, won't record information about its child or children
+ * 
+ * Everytime the build function returns a widget, that widget is the child of the current widget
  */
 
 import 'package:flutter/material.dart';
@@ -112,13 +123,27 @@ void main() {
   runApp(MyApp(appRouter: AppRouter(), connectivity: Connectivity(),));
 }
 
+/**
+ * Widget Tree
+ * MyApp
+ * MultiBlocProvider
+ * BlocProvider<InternetCubit>
+ * BlocProvider<CounterCubit>
+ * MaterialApp
+ * HomeScreen
+ * BlocListener<InternetCubit>
+ * Scaffold
+ * AppBar, Center
+ * ...
+ */
+
 class MyApp extends StatelessWidget {
-  MyApp({super.key, required this.connectivity, required this.appRouter});
+  const MyApp({super.key, required this.connectivity, required this.appRouter});
   final AppRouter appRouter;
   final Connectivity connectivity;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext myAppContext) {
     // The key is to provide a unique instance of a bloc/cubit
     // Shouldn't create multiple instances of the same cubit/bloc, potential for state bugs
 
@@ -132,8 +157,8 @@ class MyApp extends StatelessWidget {
     // globally to all of our screens
     return MultiBlocProvider(
       providers: [
-        BlocProvider<InternetCubit>(create: (context) => InternetCubit(connectivity: connectivity)),
-        BlocProvider<CounterCubit>(create: (context) => CounterCubit()),
+        BlocProvider<InternetCubit>(create: (internetCubitContext) => InternetCubit(connectivity: connectivity)),
+        BlocProvider<CounterCubit>(create: (counterCubitContext) => CounterCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
