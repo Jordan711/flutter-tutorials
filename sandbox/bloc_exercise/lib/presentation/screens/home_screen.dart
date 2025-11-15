@@ -99,12 +99,50 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               SizedBox(height: 24),
+
+              // Start looking from the homeScreenContext, and when we find the Navigator Instance
+              // We push the screen
               MaterialButton(
                 color: widget.color,
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/second');
+                  // Search for the closest Navigator instance inside the widget tree
+                  // Starting from this exact BuildContext
+                  // Then from the context in which the Navigator Instance was found, push the desired new screen inside it's own context
+
+                  // MaterialButton is built with an anonymous context, and cannot be accessed
+                  // Anonymous context remains anonymous but Builder widget creates ana ccessible context right above
+                  // the widget you want the lookup to start from
+
+                  // materialButtonContext is the context in which the Builder widget was created.
+                  // MAterial button is still built within an anonymous context
+                  Navigator.of(homeScreenContext).pushNamed('/second');
                 },
                 child: Text("Go to second screen"),
+              ),
+
+              // Start searching for a Navigator Instance, right from materialButtonContext BuildContext
+              // Push /second screen from the context, where it will be found
+              // MaterialApp has Navigator in its core functionality
+              Builder(
+                builder: (materialButtonContext) {
+                  return MaterialButton(
+                    color: widget.color,
+                    onPressed: () {
+                      // Search for the closest Navigator instance inside the widget tree
+                      // Starting from this exact BuildContext
+                      // Then from the context in which the Navigator Instance was found, push the desired new screen inside it's own context
+                  
+                      // MaterialButton is built with an anonymous context, and cannot be accessed
+                      // Anonymous context remains anonymous but Builder widget creates ana ccessible context right above
+                      // the widget you want the lookup to start from
+                  
+                      // materialButtonContext is the context in which the Builder widget was created.
+                      // MAterial button is still built within an anonymous context
+                      Navigator.of(materialButtonContext).pushNamed('/second');
+                    },
+                    child: Text("Go to second screen"),
+                  );
+                }
               ),
 
               MaterialButton(
