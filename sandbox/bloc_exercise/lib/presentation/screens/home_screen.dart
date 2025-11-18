@@ -4,6 +4,17 @@ import 'package:bloc_exercise/logic/cubit/internet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// If I try to access the BlocProvider starting from the context of a screen that
+/// doesn't have BlocProvider above in the widget tree, it won't ork
+/// I.e. BlocProvider.of() fails to find a context containing the specific bloc/cubit
+/// 
+/// Also, cannot access a bloc or cubit instance from the same context in which it was provided
+/// Need to call BlocProvider.of() in child contexts only
+/// 
+/// Widget Tree 
+/// CTRL Shift P
+/// Dev Tools
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.color});
 
