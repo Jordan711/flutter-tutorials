@@ -14,6 +14,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Widget Tree 
 /// CTRL Shift P
 /// Dev Tools
+/// 
+/// BLOC 6.1
+/// Multi Bloc Builder - rebuild a wdiget based on multiple blocs or cubit states
+/// 
+/// context.watch<BlocA>()
+/// From the widget that was built within the context BuildContext
+/// Start searching for the unique instance of BlocA, provided above in the widget tree, then
+/// After it is found, watch or subscribe to its stream of emitted states
+/// Whenever a new state is emitted by BlocA
+/// Rebuild the widget from which the lookup was started
+/// 
+/// Store the different Bloc states in each variable
+/// final blocAState = context.watch<BlocA>().state;
+/// final blocBState = context.watch<BlocB>().state;
+/// final blocCState = context.watch<BlocC>().state;
+/// 
+/// return MyWidget(blocAState, blocBState, blocCState);
+/// 
+/// Entire widget of context will be rebuilt
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.color});
