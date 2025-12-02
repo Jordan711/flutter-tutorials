@@ -46,6 +46,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// context.read() is a way to read/access a provided instance of bloc/cubit inside the widget tree
 /// Won't rebuild widget from where you'll start searching for the bloc/cubit instance
 /// Should be called only when you need it, and only where you need it
+/// 
+/// Never mutate existing state
+/// Bloc won't consecutively emit 2 identical states
+/// emit(state.copyWith(blah: newValue));
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.color});
