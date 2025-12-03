@@ -123,8 +123,12 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(storageDirectory: HydratedStorageDirectory((await getApplicationDocumentsDirectory()).path));
-  runApp(MyApp(appRouter: AppRouter(), connectivity: Connectivity(),));
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getApplicationDocumentsDirectory()).path,
+    ),
+  );
+  runApp(MyApp(appRouter: AppRouter(), connectivity: Connectivity()));
 }
 
 /**
@@ -157,12 +161,17 @@ class MyApp extends StatelessWidget {
     // Instances can be provided locally, specifically, or globally
 
     // Wrapping the material app inside the bloc provider
-    // Create the only instance of the counter cubit to be provided 
+    // Create the only instance of the counter cubit to be provided
     // globally to all of our screens
     return MultiBlocProvider(
       providers: [
-        BlocProvider<InternetCubit>(create: (internetCubitContext) => InternetCubit(connectivity: connectivity)),
-        BlocProvider<CounterCubit>(create: (counterCubitContext) => CounterCubit()),
+        BlocProvider<InternetCubit>(
+          create: (internetCubitContext) =>
+              InternetCubit(connectivity: connectivity),
+        ),
+        BlocProvider<CounterCubit>(
+          create: (counterCubitContext) => CounterCubit(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

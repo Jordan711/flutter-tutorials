@@ -4,12 +4,28 @@ import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+
+class FakeStorage implements Storage {
+  @override
+  dynamic read(String key) => null;
+  @override
+  Future<void> write(String key, dynamic value) async {}
+  @override
+  Future<void> delete(String key) async {}
+  @override
+  Future<void> clear() async {}
+  @override
+  Future<void> close() async {}
+}
+
 void main() {
   // A group represents a group of tests
   group("CounterCubit", () {
     late CounterCubit counterCubit;
 
     setUp(() {
+      HydratedBloc.storage = FakeStorage();
       counterCubit = CounterCubit();
     });
 
