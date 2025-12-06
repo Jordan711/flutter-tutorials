@@ -120,6 +120,28 @@ import 'package:connectivity_plus/connectivity_plus.dart';
  * 
  * Bloc extends cubit
  * onChange called whenever new state emited
+ * 
+ * General Rule: Create a cubit or bloc for every feature of app
+ * Start with a cubit and refactor it to a bloc when you need its advantages
+ * 
+ * Naming states
+ * Bloc/Cubit Subject + Action + State of Action
+ * WeatherFetchSuccess
+ * WeatherFetchInProgress
+ * WeatherFetchFailure
+ * 
+ * Naming Events
+ * Bloc/Cubit Subject + Action past tense
+ * UserFetched
+ * UserDeleted
+ * 
+ * Naming functions
+ * Action
+ * Fetch
+ * Delete
+ * Create
+ * 
+ * User Dart Data Class Generator extension
  */
 
 import 'package:flutter/material.dart';
