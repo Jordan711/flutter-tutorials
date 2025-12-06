@@ -2,6 +2,7 @@ library;
 
 import 'package:bloc_exercise/logic/cubit/counter_cubit.dart';
 import 'package:bloc_exercise/logic/cubit/internet_cubit.dart';
+import 'package:bloc_exercise/logic/utility/app_bloc_observer.dart';
 import 'package:bloc_exercise/presentation/router/app_router.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 /** 
@@ -18,10 +19,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
  * 
  * Cubit is a component based on functions that are not part of a stream,
  * emits a stream of states which modify the UI
+ * is driven by calling its predefined functions
  * 
  * Bloc not only emits a stream of states but also receives a stream of events
  * - There will be a mapped event to state function, taking an event and then converting it 
  * into a state to return
+ * is driven by a stream of events
  * 
  * There should be a block/cubit component for every feature of your app
  * 
@@ -114,6 +117,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
  * The buildcontext of a wigdet only keeps track of its direct parent, won't record information about its child or children
  * 
  * Everytime the build function returns a widget, that widget is the child of the current widget
+ * 
+ * Bloc extends cubit
+ * onChange called whenever new state emited
  */
 
 import 'package:flutter/material.dart';
@@ -128,6 +134,9 @@ void main() async {
       (await getApplicationDocumentsDirectory()).path,
     ),
   );
+
+  Bloc.observer = AppBlocObserver();
+
   runApp(MyApp(appRouter: AppRouter(), connectivity: Connectivity()));
 }
 
@@ -171,6 +180,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CounterCubit>(
           create: (counterCubitContext) => CounterCubit(),
+          lazy: true, // Bloc/cubit created only when the app really needs it
         ),
       ],
       child: MaterialApp(
